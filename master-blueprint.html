@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridge AI — Master Blueprint</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;font-size:9.5pt;line-height:1.55;color:#1a1f3c;background:#fff;direction:rtl;padding:22px 26px}
+@page{size:A4;margin:13mm 12mm}
+@media print{body{padding:0}.pb{page-break-before:always}.nob{page-break-inside:avoid}}
+
+/* COVER */
+.cover{background:linear-gradient(155deg,#0c1832 0%,#193880 52%,#2a56c6 100%);color:#fff;padding:54px 44px 40px;border-radius:10px;text-align:center;margin-bottom:28px}
+.cover-brand{font-size:9pt;letter-spacing:5px;text-transform:uppercase;opacity:.6;margin-bottom:18px;font-weight:300}
+.cover h1{font-size:29pt;font-weight:700;letter-spacing:.5px;margin-bottom:10px}
+.cover-sub{font-size:12.5pt;font-weight:300;opacity:.78;margin-bottom:26px}
+.cover-line{width:52px;height:3px;background:rgba(255,255,255,.32);margin:0 auto 18px;border-radius:2px}
+.cover-meta{font-size:9pt;opacity:.62}
+.cover-meta span{margin:0 7px}
+
+/* SECTIONS */
+.sec{margin-top:24px}
+.sec-head{display:flex;align-items:center;gap:10px;background:#0c1832;color:#fff;padding:9px 15px;border-radius:6px 6px 0 0;font-size:11pt;font-weight:600}
+.sn{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:50%;background:#2a56c6;font-size:9.5pt;font-weight:700;flex-shrink:0}
+.sec-body{border:1.5px solid #c6d1ea;border-top:none;border-radius:0 0 6px 6px;padding:16px 18px;background:#f7f8fd}
+.note{font-size:8.5pt;color:#4a5a80;background:#eef1fc;border-right:3px solid #4060c8;padding:8px 12px;border-radius:0 4px 4px 0;margin-bottom:14px}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;background:#fff}
+th{background:#193880;color:#fff;padding:8px 11px;text-align:right;font-size:8.5pt;font-weight:600}
+td{padding:7px 11px;border-bottom:1px solid #e3e9f5;font-size:8pt;vertical-align:middle}
+tr:nth-child(even) td{background:#edf1fb}
+tr:last-child td{border-bottom:none}
+
+/* TAGS */
+.t{display:inline-block;border-radius:10px;padding:2px 8px;font-size:7.5pt;font-weight:600;white-space:nowrap}
+.t1{background:#dbeafe;color:#1e40af}
+.t2{background:#dcfce7;color:#166534}
+.t3{background:#ffedd5;color:#9a3412}
+.t4{background:#ede9fe;color:#5b21b6}
+.t5{background:#fee2e2;color:#991b1b}
+.ts{background:#fef9c3;color:#713f12}
+.to{background:#d1fae5;color:#065f46}
+.tb{background:#fce7e7;color:#b91c1c}
+.td{background:#e5e7eb;color:#374151}
+
+/* FEATURE LABELS */
+.fl{font-size:9.5pt;font-weight:700;margin:14px 0 8px;padding-right:10px;border-right:3px solid;display:flex;align-items:center;gap:8px}
+.fl1{color:#1e40af;border-color:#1e40af}
+.fl2{color:#166534;border-color:#166534}
+.fl3{color:#9a3412;border-color:#9a3412}
+.fl4{color:#5b21b6;border-color:#5b21b6}
+.fl5{color:#991b1b;border-color:#991b1b}
+.fls{color:#0c1832;border-color:#0c1832}
+
+/* CODE */
+.code-wrap{direction:ltr;text-align:left;margin-top:4px}
+pre.tree{font-family:'Courier New',Consolas,monospace;font-size:8pt;line-height:1.65;background:#0c1832;color:#7dd3fc;padding:16px 18px;border-radius:6px;direction:ltr;text-align:left;white-space:pre;overflow:hidden}
+
+/* SPEC CARDS */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.sg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+.card{background:#fff;border:1.5px solid #c6d1ea;border-radius:6px;overflow:hidden;page-break-inside:avoid}
+.card-h{padding:7px 11px;color:#fff;font-size:8.5pt;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.h1{background:#1d4ed8}.h2{background:#15803d}.h3{background:#c2410c}.h4{background:#7c3aed}.h5{background:#b91c1c}.hs{background:#0c1832}
+.badge{font-size:7pt;background:rgba(255,255,255,.22);border-radius:8px;padding:1px 7px;font-weight:400}
+.card-b{padding:9px 11px}
+.row{display:flex;gap:6px;margin-bottom:4px}
+.lbl{font-size:7.5pt;font-weight:700;color:#64748b;min-width:48px;flex-shrink:0;padding-top:1px}
+.val{font-size:7.8pt;color:#1a1f3c;flex:1}
+.val.no{color:#be123c}
+
+/* CALLOUTS */
+.cal{padding:9px 13px;border-radius:4px;margin-bottom:8px;font-size:9pt;display:flex;gap:10px;align-items:flex-start}
+.warn{background:#fffbeb;border-right:4px solid #f59e0b}
+.ok{background:#f0fdf4;border-right:4px solid #16a34a}
+.err{background:#fff1f2;border-right:4px solid #e11d48}
+
+/* NUMBERED LIST */
+.nl{list-style:none;padding:0}
+.nl li{padding:9px 36px 9px 0;border-bottom:1px solid #e3e9f5;position:relative;font-size:9.5pt}
+.nl li:last-child{border-bottom:none}
+.nl li .n{position:absolute;right:0;top:9px;width:22px;height:22px;border-radius:50%;background:#193880;color:#fff;display:flex;align-items:center;justify-content:center;font-size:8.5pt;font-weight:700}
+
+/* FOOTER */
+footer{margin-top:30px;padding-top:10px;border-top:1.5px solid #e3e9f5;display:flex;justify-content:space-between;font-size:7.5pt;color:#94a3b8}
+
+/* TOC TABLE */
+.toc-table td{padding:5px 11px;font-size:9pt;border-bottom:1px solid #e3e9f5}
+.toc-table td:first-child{font-weight:700;color:#193880;width:28px}
+.toc-table tr:last-child td{border-bottom:none}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ COVER ══════════════════ -->
+<div class="cover nob">
+  <div class="cover-brand">Bridge AI Enterprise</div>
+  <h1>Master Blueprint</h1>
+  <div class="cover-sub">מסמך אפיון טכני · הגשה לאישור לפני תחילת פיתוח</div>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <span>גרסה 1.0</span>
+    <span>|</span>
+    <span>יוני 2026</span>
+    <span>|</span>
+    <span>ERAN &nbsp;·&nbsp; SHIRA &nbsp;·&nbsp; HODAYA &nbsp;·&nbsp; ORI</span>
+  </div>
+</div>
+
+<!-- ══════════════════ TOC ══════════════════ -->
+<div class="sec nob">
+  <div class="sec-head"><span class="sn">☰</span> תוכן עניינים</div>
+  <div class="sec-body" style="padding:12px 18px">
+    <table class="toc-table">
+      <tbody>
+        <tr><td>1</td><td>File Ownership Table — טבלת בעלות קבצים</td></tr>
+        <tr><td>2</td><td>Updated Feature Table — טבלת פיצ'רים מעודכנת</td></tr>
+        <tr><td>3</td><td>Agreed Project Structure — מבנה פרויקט מוסכם</td></tr>
+        <tr><td>4</td><td>Individual File Specs — Spec לכל קובץ (21 קבצים)</td></tr>
+        <tr><td>5</td><td>Shared File Specs — קבצים משותפים (5 קבצים)</td></tr>
+        <tr><td>6</td><td>Definition of Done — תנאים לאישור לפני קידוד</td></tr>
+        <tr><td>7</td><td>Decision Log — החלטות ארכיטקטורה שנסגרו</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════ SECTION 1: OWNERSHIP ══════════════════ -->
+<div class="sec pb">
+  <div class="sec-head"><span class="sn">1</span> File Ownership Table &nbsp;·&nbsp; טבלת בעלות קבצים</div>
+  <div class="sec-body">
+    <div class="note">חלוקת בעלות סופית, יוני 2026. HODAYA — Owner F4 BI Dashboard ו-Security Steward של auth.js.</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:42%">קובץ</th>
+          <th style="width:18%">פיצ'ר</th>
+          <th style="width:22%">Owner</th>
+          <th style="width:18%">Backup Reviewer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">CandidateSwipeCard.jsx</td><td><span class="t t1">F1 Swipe</span></td><td><span class="t to">ERAN</span></td><td>SHIRA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">HRSwipeCard.jsx</td><td><span class="t t1">F1 Swipe</span></td><td><span class="t to">ERAN</span></td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">gesture-engine.js</td><td><span class="t t1">F1 Swipe</span></td><td><span class="t to">ERAN</span></td><td>ORI</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/routes/match.routes.js</td><td><span class="t t1">F1 Swipe</span></td><td><span class="t to">ERAN</span></td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/controllers/match-engine.js</td><td><span class="t t1">F1 Swipe</span></td><td><span class="t to">ERAN</span></td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">InputDataForm.jsx</td><td><span class="t t2">F2 Onboarding</span></td><td><span class="t" style="background:#fce7f3;color:#9d174d">SHIRA</span></td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">InterviewWindow.jsx</td><td><span class="t t2">F2 Onboarding</span></td><td><span class="t" style="background:#fce7f3;color:#9d174d">SHIRA</span></td><td>ORI</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">ai-layer/prompts/interviewer-agent.js</td><td><span class="t t2">F2 Onboarding</span></td><td><span class="t" style="background:#fce7f3;color:#9d174d">SHIRA</span></td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/routes/onboarding.routes.js</td><td><span class="t t2">F2 Onboarding</span></td><td><span class="t" style="background:#fce7f3;color:#9d174d">SHIRA</span></td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">JobCreatorForm.jsx</td><td><span class="t t3">F3 HR Profiler</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>SHIRA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">RequirementsPreview.jsx</td><td><span class="t t3">F3 HR Profiler</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">ai-layer/prompts/hr-agent.js</td><td><span class="t t3">F3 HR Profiler</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>SHIRA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/routes/hr.routes.js</td><td><span class="t t3">F3 HR Profiler</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">AnalyticsGrid.jsx</td><td><span class="t t4">F4 BI Dashboard</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>ORI</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">QualityTierChart.jsx</td><td><span class="t t4">F4 BI Dashboard</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/routes/analytics.routes.js</td><td><span class="t t4">F4 BI Dashboard</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>ORI</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/services/tiering.service.js</td><td><span class="t t4">F4 BI Dashboard</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA</span></td><td>SHIRA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">GapMapVisual.jsx</td><td><span class="t t5">F5 Mentor Hub</span></td><td><span class="t" style="background:#ecfdf5;color:#065f46">ORI</span></td><td>SHIRA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">MentorPersonaChat.jsx</td><td><span class="t t5">F5 Mentor Hub</span></td><td><span class="t" style="background:#ecfdf5;color:#065f46">ORI</span></td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">ai-layer/prompts/mentor-agent.js</td><td><span class="t t5">F5 Mentor Hub</span></td><td><span class="t" style="background:#ecfdf5;color:#065f46">ORI</span></td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server/routes/learning.routes.js</td><td><span class="t t5">F5 Mentor Hub</span></td><td><span class="t" style="background:#ecfdf5;color:#065f46">ORI</span></td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">db.js</td><td><span class="t ts">Shared</span></td><td>ERAN — DB Steward</td><td>HODAYA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">server.js</td><td><span class="t ts">Shared</span></td><td>SHIRA — Integration Steward</td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">index.html</td><td><span class="t ts">Shared</span></td><td>ORI — UX Steward</td><td>SHIRA</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">config.js</td><td><span class="t ts">Shared</span></td><td>HODAYA — Env Steward</td><td>ERAN</td></tr>
+        <tr><td dir="ltr" style="text-align:left;font-family:'Courier New',monospace;font-size:7.5pt">auth.js</td><td><span class="t ts">Shared</span></td><td><span class="t" style="background:#fff7ed;color:#9a3412">HODAYA — Security Steward</span></td><td>ERAN</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════ SECTION 2: FEATURE TABLE ══════════════════ -->
+<div class="sec pb">
+  <div class="sec-head"><span class="sn">2</span> Updated Feature Table &nbsp;·&nbsp; טבלת פיצ'רים מעודכנת</div>
+  <div class="sec-body">
+    <div class="note">הטבלה מגדירה במפורש מה כל פיצ'ר עושה ומה לא — כולל הגבלות מכוונות למניעת Over-Engineering.</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%">פיצ'ר</th>
+          <th style="width:40%">מה הוא עושה (DOES)</th>
+          <th style="width:40%">מה הוא לא עושה (DOES NOT DO)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="t t1">F1 Swipe Discovery</span><br><span style="font-size:7.5pt;color:#555">Candidate + HR</span></td>
+          <td>מציג כרטיסיות ממוינות לפי match score; מקבל החלטות Like/Pass; שומר אינטראקציות עם זיהוי התאמה הדדית</td>
+          <td style="color:#9a3412">לא מחשב AI בצד לקוח; לא מציג פרטים מזהים של מועמד ל-HR; לא שולח Push Notification בפועל</td>
+        </tr>
+        <tr>
+          <td><span class="t t2">F2 Candidate Onboarding</span><br><span style="font-size:7.5pt;color:#555">Interviewer Agent</span></td>
+          <td>קולט PDF / LinkedIn / טקסט חופשי; מריץ ראיון אדפטיבי בזרימה (stream); מפיק Academic DNA Profile</td>
+          <td style="color:#9a3412">לא מבצע השמה סופית למשרה; לא מחשב BI; לא מנתב לקורסים בשלב הקליטה</td>
+        </tr>
+        <tr>
+          <td><span class="t t3">F3 HR Profiler</span><br><span style="font-size:7.5pt;color:#555">Employer Profiler</span></td>
+          <td>מפרק JD לשדות מובנים; יוצר Job Schema; מאפשר עריכת דרישות לפני אישור סופי ושמירה</td>
+          <td style="color:#9a3412">לא מבצע התאמה למועמדים בזמן יצירה; לא מחשב דירוג Tier; לא שולח התראות</td>
+        </tr>
+        <tr>
+          <td><span class="t t4">F4 BI Dashboard</span><br><span style="font-size:7.5pt;color:#555">Market Intelligence</span></td>
+          <td>מחשב מדדים אגרגטיביים; מציג Tiering ומגמות ביקוש; מספק תובנות מוכוונות-פעולה למשתמש</td>
+          <td style="color:#9a3412">לא חושף נתונים מזהים; לא מציג מסקנות ממדגם לא מובהק; לא מעדכן Real-Time לכל אירוע</td>
+        </tr>
+        <tr>
+          <td><span class="t t5">F5 Mentor Hub</span><br><span style="font-size:7.5pt;color:#555">AI Mentor + Routing</span></td>
+          <td>מציג פערי יכולות ויזואלית; מריץ צ'אט פרסונות; מחזיר מקורות למידה רלוונטיים מ-APIs חיצוניים</td>
+          <td style="color:#9a3412">לא מחליף קורס מלא; לא מבטיח קבלה לעבודה; לא משנה את Academic DNA המקורי של המועמד</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:16px">
+      <div style="font-size:9.5pt;font-weight:700;color:#1a1f3c;margin-bottom:10px">הנחיות עבודה מוסכמות</div>
+      <div class="cal warn"><span>—</span><span><strong>MVP-First:</strong> בכל מודול — בונים קודם את ה-Happy Path המלא, ואחריו מקרי קצה. אין מפתחים עשרות validations לפני שיש זרימה בסיסית עובדת.</span></div>
+      <div class="cal warn"><span>—</span><span><strong>Race Condition — Interactions:</strong> ב-<code>match.routes.js</code> — כתיבה לטבלת Interactions מתבצעת דרך upsert אטומי (unique index על candidate_id + job_id) כדי למנוע כפילויות במקרה של Like סימולטני.</span></div>
+      <div class="cal warn"><span>—</span><span><strong>Text Streaming:</strong> ב-<code>InterviewWindow.jsx</code> וב-<code>MentorPersonaChat.jsx</code> — ה-MVP משתמש ב-SSE בלבד, עטוף ב-<strong>Abstraction Layer</strong> (<code>streamClient.js</code>) המסתיר את הפרוטוקול. כך ניתן לשדרג ל-WebSocket בגרסה עתידית ללא שינוי קוד UI.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SECTION 3: PROJECT STRUCTURE ══════════════════ -->
+<div class="sec pb">
+  <div class="sec-head"><span class="sn">3</span> Agreed Project Structure &nbsp;·&nbsp; מבנה פרויקט מוסכם (MVP)</div>
+  <div class="sec-body">
+    <div class="note">המבנה מאוזן בין פשטות MVP לחלוקה מודולרית ברורה לפי חבר צוות. כל פיצ'ר בתיקייה נפרדת; קבצים משותפים ב-shared/.</div>
+    <div class="code-wrap">
+<pre class="tree">bridge-ai-mvp/
+│
+├── client/
+│   ├── modules/
+│   │   ├── 01-swipe-discovery/          # F1 — ERAN
+│   │   │   ├── CandidateSwipeCard.jsx
+│   │   │   ├── HRSwipeCard.jsx
+│   │   │   └── gesture-engine.js
+│   │   │
+│   │   ├── 02-candidate-onboarding/     # F2 — SHIRA
+│   │   │   ├── InputDataForm.jsx
+│   │   │   └── InterviewWindow.jsx
+│   │   │
+│   │   ├── 03-hr-profiler/              # F3 — HODAYA
+│   │   │   ├── JobCreatorForm.jsx
+│   │   │   └── RequirementsPreview.jsx
+│   │   │
+│   │   ├── 04-bi-dashboard/             # F4 — HODAYA
+│   │   │   ├── AnalyticsGrid.jsx
+│   │   │   └── QualityTierChart.jsx
+│   │   │
+│   │   └── 05-mentor-hub/               # F5 — ORI
+│   │       ├── GapMapVisual.jsx
+│   │       └── MentorPersonaChat.jsx
+│   │
+│   └── app-gateway.jsx                  # Router ראשי
+│
+├── server/
+│   ├── routes/
+│   │   ├── match.routes.js
+│   │   ├── onboarding.routes.js
+│   │   ├── hr.routes.js
+│   │   ├── analytics.routes.js
+│   │   └── learning.routes.js
+│   ├── controllers/
+│   │   └── match-engine.js
+│   └── services/
+│       └── tiering.service.js
+│
+├── ai-layer/
+│   └── prompts/
+│       ├── interviewer-agent.js
+│       ├── hr-agent.js
+│       └── mentor-agent.js
+│
+└── shared/                              # קבצים משותפים לכל הצוות
+    ├── db.js
+    ├── server.js
+    ├── index.html
+    ├── config.js
+    └── auth.js</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SECTION 4: INDIVIDUAL SPECS ══════════════════ -->
+<div class="sec pb">
+  <div class="sec-head"><span class="sn">4</span> Individual File Specs &nbsp;·&nbsp; Spec לכל קובץ — 21 קבצים</div>
+  <div class="sec-body">
+
+    <!-- F1 -->
+    <div class="fl fl1">F1 &mdash; Swipe Discovery <span style="font-weight:400;font-size:9pt;color:#374151">(5 קבצים · Owner: ERAN)</span></div>
+    <div class="sg">
+      <div class="card nob">
+        <div class="card-h h1"><span>CandidateSwipeCard.jsx</span><span class="badge">ERAN</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">הצגת כרטיס משרה למועמד עם פקדי Like / Pass</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">candidateId · jobCard · onDecision callback</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">רינדור פרטי משרה + match score; האזנה לאירועי gesture-engine; שליחת החלטה לשרת</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ decision, jobId, timestamp } ← אירוע לשרת</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">חישוב סמנטי · גישה ישירה ל-DB</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h1"><span>HRSwipeCard.jsx</span><span class="badge">ERAN</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">הצגת כרטיס מועמד אנונימי לאיש HR עם Like / Pass</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">hrId · candidateCard · onDecision callback</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">הצגת DNA summary + כישורים בלבד; Like/Pass; באנר Match הדדי</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ decision, candidateId, jobId, timestamp } ← לשרת</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">פרטים מזהים (שם / תמונה) · ניהול Push Notifications</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h1"><span>gesture-engine.js</span><span class="badge">ERAN</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">תרגום תנועות מגע / עכבר להחלטה like/pass</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">startX · endX · swipeThreshold (pixels)</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">חישוב דלתא; סיווג like / pass / ignore; מניעת ירי כפול</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ decision: "like"|"pass", cardId, timestamp }</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">API calls · רינדור UI · לוגיקה עסקית</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h1"><span>match.routes.js</span><span class="badge">ERAN</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">קבלת החלטות החלקה משני הצדדים ושמירה אטומית ב-DB</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">candidate_id · job_id · actor_type · decision</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">ולידציה; upsert אטומי ל-Interactions; קריאה ל-match-engine; החזרת סטטוס</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ status: "recorded", match_status: "pending"|"matched" }</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">לוגיקת UI · שליחת Push · חישוב LLM</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h1"><span>match-engine.js</span><span class="badge">ERAN</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">חישוב ציון התאמה סמנטי ובדיקת Mutual Match</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">candidate_id · job_id</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">טעינת CandidateProfile + JobSchema; חישוב overlap score; בדיקת like הדדי ≥ 70%</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ match_score: number, mutual_match: boolean }</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">שליחת Push · עיבוד streaming · לוגיקת UI</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- F2 -->
+    <div class="fl fl2" style="margin-top:18px">F2 &mdash; Candidate Onboarding <span style="font-weight:400;font-size:9pt;color:#374151">(4 קבצים · Owner: SHIRA)</span></div>
+    <div class="sg">
+      <div class="card nob">
+        <div class="card-h h2"><span>InputDataForm.jsx</span><span class="badge">SHIRA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">איסוף קלט ראשוני — קו"ח / LinkedIn / פרפרנסים</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">cv_file (PDF) · linkedin_url · free_text · employment_prefs</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">ולידציה (סוג/גודל קובץ); העלאה ל-S3; שמירת CandidateProfile; ניווט לראיון</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">candidate_id</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">ניתוח NLP של קו"ח · חישוב Match</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h2"><span>InterviewWindow.jsx</span><span class="badge">SHIRA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">צ'אט ראיון אדפטיבי עם SSE streaming של תשובות AI</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">candidate_id · chat_history · user_message</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">תצוגת שיחה + typing indicator; קריאה ל-onboarding endpoint; קליטת chunks SSE; עדכון שלב ראיון</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">Academic DNA preview + role matches (לאחר שלב "complete")</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">כתיבת JobSchema · BI analytics · ניתוח LinkedIn</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h2"><span>interviewer-agent.js</span><span class="badge">SHIRA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">בניית פרומפט דינמי ותפעול ה-LLM לראיון אדפטיבי</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">candidate_profile · chat_history · interview_stage</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">system prompt לפי שלב (intro/deep-dive/complete); fallback לתשובות קצרות; stream חזרה ל-client</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">Text Stream / Academic DNA JSON</span></div>
+          <div class="row" style="align-items:flex-start"><span class="lbl" style="padding-top:6px">Example<br>DNA Profile</span><span class="val" style="font-family:'Courier New',monospace;font-size:7.5pt;background:#1e293b;color:#e2e8f0;border-radius:6px;padding:10px 12px;display:block;white-space:pre-wrap;line-height:1.6">{
+  "academic_dna": {
+    "professional_strengths": ["Python","SQL","Data Analysis"],
+    "transferable_skills":    ["Analytical thinking","Self-learning","Attention to detail"],
+    "recommended_role_categories": [
+      {"role":"Data Analyst", "score":88, "match_reasoning":"Strong SQL and data analysis foundation"},
+      {"role":"Risk Analyst", "score":74, "match_reasoning":"Detail-oriented, quantitative skills"},
+      {"role":"BI Analyst",   "score":65, "match_reasoning":"Python transferable; BI tooling gaps"}
+    ],
+    "knowledge_gaps": ["Advanced Statistics","Power BI"],
+    "summary": "A self-driven, analytically minded candidate with solid Python and SQL foundations. Demonstrates an independent work style suited to data-heavy roles."
+  }
+}</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">רינדור UI · כתיבה ישירה ל-DB · חישוב Match</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h2"><span>onboarding.routes.js</span><span class="badge">SHIRA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">API לניהול העלאת נתונים ושיחת הראיון של המועמד</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">upload payload · chat payload (message + history)</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">ניהול העלאה; שמירת פרופיל; ניתוב ל-interviewer-agent; החזרת stream ללקוח</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ candidate_id, s3_url } / Text Stream</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">לוגיקת Swipe · חישוב Match · HR routes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- F3 -->
+    <div class="fl fl3" style="margin-top:18px">F3 &mdash; HR Profiler <span style="font-weight:400;font-size:9pt;color:#374151">(4 קבצים · Owner: HODAYA)</span></div>
+    <div class="sg">
+      <div class="card nob">
+        <div class="card-h h3"><span>JobCreatorForm.jsx</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">הזנת תיאור משרה חופשי ומסנני חובה על ידי HR</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">job_title · description (free text) · filters (degree / exp / military)</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">ולידציה (לא ריק / לא קצר מדי); שליחה ל-hr.routes; הצגת תצוגה מקדימה</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">draft job profile → RequirementsPreview</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">שמירת התאמות מועמדים · חישוב Tier</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h3"><span>RequirementsPreview.jsx</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">הצגת דרישות מפורקות לאישור / עריכה לפני שמירה</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">extracted_requirements (parsed from hr-agent)</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">סימון Hard/Soft constraints; עריכה ידנית; אישור → שמירה ב-JobSchema</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">payload מאושר ל-hr.routes לשמירה סופית</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">ניתוח NLP · הפעלת hr-agent</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h3"><span>hr-agent.js</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">פירוק JD מגולמי לז'רגון תפעולי ועץ מובנה של כישורים</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">raw_job_description · constraints (hard filters)</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">entity extraction; נרמול מונחים; יצירת JSON Schema; זיהוי סתירות (junior + 5yr exp)</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ job_id, extracted_skills, requirements_tree } JSON</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">התאמה למועמדים בזמן אמת · BI</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h3"><span>hr.routes.js</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">ניהול יצירה וקריאה של משרות HR</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">POST: create-job payload · GET: hr_id</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">קריאה ל-hr-agent; שמירת JobSchema; החזרת רשימת משרות לפי hr_id</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ job_id, extracted_skills } / { jobs[] }</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">BI aggregation · Match engine · Auth</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- F4 -->
+    <div class="fl fl4" style="margin-top:18px">F4 &mdash; BI Dashboard <span style="font-weight:400;font-size:9pt;color:#374151">(4 קבצים · Owner: HODAYA)</span></div>
+    <div class="sg">
+      <div class="card nob">
+        <div class="card-h h4"><span>AnalyticsGrid.jsx</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">לוח בקרה מרכזי למדדי שוק ונתוני פלטפורמה</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">analytics summary API response</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">רינדור KPI cards + מגמות; הודעת "נתונים לא מספיקים" כשאין מובהקות סטטיסטית</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">תצוגת BI (KPIs + גרפים)</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">חישוב Tier · עיבוד raw data</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h4"><span>QualityTierChart.jsx</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">גרף חלוקת קבוצות איכות (Tier) למועמדים / משרות</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">tier_buckets (array of { tier, count })</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">ציור התפלגות (chart.js); פילטר לפי תחום / טווח זמן; צבעי Tier</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">chart view (ירוק/כתום/אדום לפי Tier)</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">עיבוד raw logs · חישוב score</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h4"><span>analytics.routes.js</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">Endpoints למדדים אגרגטיביים של הפלטפורמה</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">date_range · segment_filters</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">שליפת אגרגציות מ-DB; קריאה ל-tiering.service; החזרת JSON לדשבורד</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ metrics, tier_distribution, trend_data }</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">פרטים מזהים (GDPR) · Real-Time updates</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h4"><span>tiering.service.js</span><span class="badge">HODAYA</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">סיווג מועמדים / משרות לקבוצות איכות</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">interactions · matches · conversion_signals</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">נירמול נתונים; חישוב composite score; קיבוץ ל-Tier; בדיקת מובהקות מינימלית (≥50 משרות / ≥200 מועמדים)</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">tier_report JSON</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">רינדור UI · חשיפת נתונים מזהים</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- F5 -->
+    <div class="fl fl5" style="margin-top:18px">F5 &mdash; Mentor Hub <span style="font-weight:400;font-size:9pt;color:#374151">(4 קבצים · Owner: ORI)</span></div>
+    <div class="sg">
+      <div class="card nob">
+        <div class="card-h h5"><span>GapMapVisual.jsx</span><span class="badge">ORI</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">הצגת פערי מיומנות ויזואלית עם קישורים למשאבים</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">candidate_gaps (array) · target_role</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">מיפוי צבעים (ירוק/כתום/אדום); סדר עדיפויות לפי חומרה; קישורים למשאבי למידה</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">gap map cards (visual + links)</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">יצירת המלצות AI · עריכת Academic DNA</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h5"><span>MentorPersonaChat.jsx</span><span class="badge">ORI</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">צ'אט מנטור אינטראקטיבי לפי פרסונה נבחרת</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">persona_type · candidate_context · chat_history</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">בחירת פרסונה (ציני / אופטימי / מחושב); SSE stream; הצגת תשובה מודרכת</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">text stream coaching responses</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">עריכת פרופיל ב-DB · BI sync</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h5"><span>mentor-agent.js</span><span class="badge">ORI</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">הפקת תשובות מנטור מותאמות פרסונה ופערי מועמד</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">missing_skills · persona_type · target_role · chat_history</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">prompt composition לפי פרסונה; שאילת מקורות; ניסוח תוכנית לימוד קצרה</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">coaching stream + resource hints</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">סנכרון BI · שמירה ל-DB · Match engine</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h h5"><span>learning.routes.js</span><span class="badge">ORI</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">ניתוב בקשות למקורות למידה מ-APIs חיצוניים</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">missing_skill_keyword · platform_filters</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">אגרגציה מ-YouTube / Udemy / Coursera; דה-דופליקציה; דירוג לפי רלוונטיות</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">{ resources: [ { title, url, platform, duration } ] }</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">ניהול חשבונות משתמשים · Auth · BI</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ SECTION 5: SHARED SPECS ══════════════════ -->
+<div class="sec pb">
+  <div class="sec-head"><span class="sn">5</span> Shared File Specs &nbsp;·&nbsp; קבצים משותפים — db.js · server.js · index.html · config.js · auth.js</div>
+  <div class="sec-body">
+    <div class="note">קבצים אלה בבעלות Stewards ייעודיים ומשמשים את כל חברי הצוות. שינוי בקבצים אלה דורש אישור מוביל הצוות הטכני.</div>
+    <div class="sg">
+      <div class="card nob">
+        <div class="card-h hs"><span>db.js</span><span class="badge">ERAN — DB Steward</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">חיבור לבסיס הנתונים וייצוא מודלים</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">DB_URI · DB_NAME (מ-config)</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">init MongoDB connection; retry policy; export models (CandidateProfile, JobSchema, Interactions, LearningLogs)</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">database client + model registry לכל ה-routes</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">לוגיקת feature עסקית · BI חישובים</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h hs"><span>server.js</span><span class="badge">SHIRA — Integration Steward</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">נקודת כניסה מרכזית לשרת Express</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">config object + כל מודולי ה-routes</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">init express; CORS + JSON middleware; route mounting לכל 5 ה-routes; health endpoint</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">running HTTP server על PORT מ-config</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">לוגיקת UI · Auth logic</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h hs"><span>index.html</span><span class="badge">ORI — UX Steward</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">שלד Single Page App של הלקוח</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">bundled JS/CSS assets</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">root container div; meta tags (viewport, charset); טעינת React bundle; favicon</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">SPA shell — אפליקציה מתמלאת דרך app-gateway.jsx</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">לוגיקה עסקית · inline JS</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h hs"><span>config.js</span><span class="badge">HODAYA — Env Steward</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">ניהול קונפיגורציה לכל סביבות הפיתוח</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">env vars: PORT · DB_URI · API_KEYS · CORS_ORIGIN · JWT_SECRET</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">validate required env vars; defaults בטוחים לסביבת dev; export immutable config object</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">frozen config object לכל מודולי השרת</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">אחסון סודות בקוד · hardcoded values</span></div>
+        </div>
+      </div>
+      <div class="card nob">
+        <div class="card-h hs"><span>auth.js</span><span class="badge">HODAYA — Security Steward</span></div>
+        <div class="card-b">
+          <div class="row"><span class="lbl">Purpose</span><span class="val">אימות JWT והרשאות תפקידים לכל routes</span></div>
+          <div class="row"><span class="lbl">Inputs</span><span class="val">Bearer token / session header</span></div>
+          <div class="row"><span class="lbl">Logic</span><span class="val">verify JWT; decode user payload; map roles (candidate / hr / admin); middleware להגנת routes</span></div>
+          <div class="row"><span class="lbl">Output</span><span class="val">req.user + permission check middleware</span></div>
+          <div class="row"><span class="lbl">לא כולל</span><span class="val no">UI login screens · password hashing · OAuth</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SECTIONS 6 + 7 + 8 ══════════════════ -->
+<div class="sec pb">
+  <div class="sec-head"><span class="sn">6</span> Definition of Done &nbsp;·&nbsp; תנאים לאישור — קידוד מתחיל רק לאחריהם</div>
+  <div class="sec-body">
+    <div class="note">כל הנקודות להלן צריכות להיות מסומנות כ-Done לפני שמתחילים לכתוב קוד.</div>
+    <ol class="nl">
+      <li><span class="n">1</span>כל בעלי הקבצים אושרו סופית — HODAYA: F3 HR Profiler + F4 BI Dashboard + Security Steward לקובץ auth.js</li>
+      <li><span class="n">2</span>כל Spec קיבל OK מהצוות — אין "חורים" בקלט/פלט בין קבצים מתקשרים</li>
+      <li><span class="n">3</span>הוסכם על מנגנון SSE בצד הלקוח לפיצ'רים עם streaming (InterviewWindow + MentorPersonaChat)</li>
+      <li><span class="n">4</span>הוסכם על מנגנון כתיבה אטומית ב-Interactions (upsert עם unique index) למניעת race condition</li>
+      <li><span class="n">5</span>המרצה נתן אישור בכתב למסמך זה</li>
+    </ol>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sn">7</span> Decision Log &nbsp;·&nbsp; החלטות ארכיטקטורה — יוני 2026</div>
+  <div class="sec-body">
+    <div class="note">ארבע החלטות שנדונו בצוות ונסגרו לפני תחילת הקידוד.</div>
+    <div class="cal ok"><span>#1</span><span><strong>Owner F4 BI Dashboard:</strong> &nbsp;HODAYA אחראית על כל 4 קבצי ה-BI: AnalyticsGrid.jsx, QualityTierChart.jsx, analytics.routes.js, tiering.service.js.</span></div>
+    <div class="cal ok"><span>#2</span><span><strong>Security Steward auth.js:</strong> &nbsp;HODAYA אחראית גם על קובץ auth.js. ERAN משמש Backup Reviewer.</span></div>
+    <div class="cal ok"><span>#3</span><span><strong>Threshold Mutual Match:</strong> &nbsp;הסף הרשמי הוא <strong>70%</strong>. יעלה בהתאם לנתוני שימוש בשלבים מאוחרים.</span></div>
+    <div class="cal ok"><span>#4</span><span><strong>Streaming Architecture:</strong> &nbsp;ה-MVP עובד עם SSE בלבד. הקוד עטוף ב-<code>streamClient.js</code> כך שמעבר ל-WebSocket בגרסה עתידית לא ידרוש שינויים ב-UI.</span></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>Bridge AI Enterprise — Master Blueprint · גרסה 1.0 · יוני 2026</span>
+  <span>ERAN &nbsp;·&nbsp; SHIRA &nbsp;·&nbsp; HODAYA &nbsp;·&nbsp; ORI</span>
+</footer>
+
+</body>
+</html>
