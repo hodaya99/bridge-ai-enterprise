@@ -1,4 +1,7 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+// Self-contained Gemini profiler — no SDK, uses built-in fetch (Node 18+).
+// Dynamically discovers a working model so it never breaks on model renames.
+
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 
 // ===== DEMO FALLBACK =====
 const DEMO_RESPONSE = {
@@ -16,7 +19,7 @@ const DEMO_RESPONSE = {
 };
 
 // ===== PROMPT =====
-const PROMPT_TEMPLATE = (text) => `You are an AI career profiler for a job matching platform called Bridge AI.
+const buildPrompt = (text) => `You are an AI career profiler for a job matching platform called Bridge AI.
 Analyze the following candidate description or CV text and extract structured information.
 
 Return ONLY a valid JSON object with exactly these keys:
@@ -36,6 +39,26 @@ Strict rules:
 
 Candidate text:
 ${text}`;
+
+// Find a model that supports generateContent. Prefer fast "flash" models.
+async function pickModel(apiKey) {
+  const res = await fetch(`${GEMINI_BASE}/models?key=${apiKey}`);
+  if (!res.ok) throw new Error('ListModels failed: ' + res.status);
+  const data = await res.json();
+  const usable = (data.models || []).filter(
+    (m) => (m.supportedGenerationMethods || []).includes('generateContent')
+  );
+  if (usable.length === 0) throw new Error('No model supports generateContent');
+
+  // Prefer a stable flash model, then any flash, then anything usable.
+  const byName = (frag) => usable.find((m) => m.name.includes(frag));
+  const chosen =
+    byName('flash-latest') ||
+    byName('2.0-flash') ||
+    byName('flash') ||
+    usable[0];
+  return chosen.name; // e.g. "models/gemini-2.0-flash"
+}
 
 // ===== HANDLER =====
 exports.handler = async function (event) {
@@ -77,24 +100,38 @@ exports.handler = async function (event) {
     };
   }
 
-  if (!process.env.GEMINI_API_KEY) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
     console.log('No GEMINI_API_KEY — returning demo response');
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(DEMO_RESPONSE),
-    };
+    return { statusCode: 200, headers, body: JSON.stringify(DEMO_RESPONSE) };
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-pro',
-      generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
-    });
+    const modelName = await pickModel(apiKey);
+    console.log('Using model:', modelName);
 
-    const result = await model.generateContent(PROMPT_TEMPLATE(text));
-    const raw = result.response.text().trim();
+    const res = await fetch(
+      `${GEMINI_BASE}/${modelName}:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: buildPrompt(text) }] }],
+          generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errBody = await res.text();
+      console.error('Gemini generateContent failed:', res.status, errBody);
+      return { statusCode: 200, headers, body: JSON.stringify(DEMO_RESPONSE) };
+    }
+
+    const json = await res.json();
+    const raw = (
+      json?.candidates?.[0]?.content?.parts?.[0]?.text || ''
+    ).trim();
 
     const jsonStr = raw
       .replace(/^```json\s*/i, '')
@@ -115,18 +152,10 @@ exports.handler = async function (event) {
     if (!Array.isArray(parsed.jobTypes)) parsed.jobTypes = DEMO_RESPONSE.jobTypes;
     if (typeof parsed.pitch !== 'string') parsed.pitch = DEMO_RESPONSE.pitch;
 
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(parsed),
-    };
+    return { statusCode: 200, headers, body: JSON.stringify(parsed) };
 
   } catch (err) {
     console.error('Gemini API error:', err.message);
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(DEMO_RESPONSE),
-    };
+    return { statusCode: 200, headers, body: JSON.stringify(DEMO_RESPONSE) };
   }
 };
