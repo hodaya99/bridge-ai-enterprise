@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bridge AI – פרופיל חכם</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">🌉 Bridge AI</div>
+      <p class="tagline">הדבק את קורות החיים שלך וקבל פרופיל מקצועי תוך שניות</p>
+    </header>
+
+    <main>
+      <!-- INPUT CARD -->
+      <div class="input-card" id="input-section">
+        <label for="cv-input">קורות חיים או תיאור ניסיון:</label>
+        <textarea
+          id="cv-input"
+          placeholder="לדוגמה: 3 שנות ניסיון בפיתוח React ו-Node.js, עבדתי ב-startup בתחום הפינטק, סיימתי תואר במדעי המחשב באוניברסיטה העברית..."
+          rows="8"
+        ></textarea>
+        <button id="analyze-btn" onclick="analyzeProfile()">
+          <span id="btn-text">✨ נתח את הפרופיל שלי</span>
+          <span id="btn-loader" class="hidden">
+            <span class="spinner"></span> מנתח...
+          </span>
+        </button>
+      </div>
+
+      <!-- ERROR -->
+      <div id="error-message" class="error-card hidden"></div>
+
+      <!-- DEMO BANNER -->
+      <div id="demo-banner" class="demo-banner hidden">
+        ⚠️ מצב הדגמה – לא הוגדר API Key. מוצגת תשובה לדוגמה.
+      </div>
+
+      <!-- RESULT CARD -->
+      <div id="result-card" class="result-card hidden">
+        <h2>הפרופיל המקצועי שלך</h2>
+
+        <div class="result-section">
+          <h3>⚡ רמת ניסיון</h3>
+          <div id="experience-level" class="level-badge"></div>
+        </div>
+
+        <div class="result-section">
+          <h3>🛠️ כישורים מרכזיים</h3>
+          <div id="skills-list" class="skills-container"></div>
+        </div>
+
+        <div class="result-section">
+          <h3>💼 תפקידים מומלצים</h3>
+          <div id="job-types" class="jobs-container"></div>
+        </div>
+
+        <div class="result-section">
+          <h3>📣 הצגה למעסיקים</h3>
+          <div id="candidate-pitch" class="pitch-box"></div>
+        </div>
+
+        <button id="reset-btn" onclick="resetForm()">🔄 נסה שוב</button>
+      </div>
+    </main>
+
+    <footer>
+      <p>Bridge AI Mini MVP &nbsp;|&nbsp; Powered by OpenAI</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

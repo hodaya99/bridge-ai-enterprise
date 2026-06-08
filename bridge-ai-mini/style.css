@@ -1,0 +1,289 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f4ff;
+  color: #1e1e2e;
+  min-height: 100vh;
+  direction: rtl;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ===== HEADER ===== */
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.logo {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #3b5bdb;
+  letter-spacing: -1px;
+  margin-bottom: 0.4rem;
+}
+
+.tagline {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+/* ===== INPUT CARD ===== */
+.input-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(59, 91, 219, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-card label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.input-card textarea {
+  width: 100%;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #1e1e2e;
+  resize: vertical;
+  transition: border-color 0.2s;
+  direction: rtl;
+  line-height: 1.6;
+}
+
+.input-card textarea:focus {
+  outline: none;
+  border-color: #3b5bdb;
+}
+
+/* ===== BUTTONS ===== */
+#analyze-btn,
+#reset-btn {
+  background: #3b5bdb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+#analyze-btn:hover:not(:disabled),
+#reset-btn:hover {
+  background: #2f4abf;
+  transform: translateY(-1px);
+}
+
+#analyze-btn:disabled {
+  background: #93a8f4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#reset-btn {
+  background: #f3f4f6;
+  color: #374151;
+  margin-top: 1.5rem;
+}
+
+#reset-btn:hover {
+  background: #e5e7eb;
+}
+
+/* ===== SPINNER ===== */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== ERROR CARD ===== */
+.error-card {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  color: #b91c1c;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ===== DEMO BANNER ===== */
+.demo-banner {
+  background: #fffbeb;
+  border: 1.5px solid #fcd34d;
+  color: #92400e;
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ===== RESULT CARD ===== */
+.result-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(59, 91, 219, 0.1);
+  margin-top: 1.5rem;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.result-card h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1e1e2e;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 1rem;
+}
+
+.result-section {
+  margin-bottom: 1.5rem;
+}
+
+.result-section h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+/* ===== LEVEL BADGE ===== */
+.level-badge {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.level-junior  { background: #dcfce7; color: #166534; }
+.level-mid     { background: #dbeafe; color: #1e40af; }
+.level-senior  { background: #ede9fe; color: #5b21b6; }
+.level-unknown { background: #f3f4f6; color: #374151; }
+
+/* ===== SKILLS ===== */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* ===== JOB TYPES ===== */
+.jobs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.job-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.job-num {
+  background: #3b5bdb;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ===== PITCH ===== */
+.pitch-box {
+  background: #f0f4ff;
+  border-right: 4px solid #3b5bdb;
+  border-radius: 0 10px 10px 0;
+  padding: 1rem 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #374151;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* ===== UTIL ===== */
+.hidden {
+  display: none !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .container { padding: 1rem 0.75rem 3rem; }
+  .logo { font-size: 1.8rem; }
+  .input-card, .result-card { padding: 1.25rem; }
+}

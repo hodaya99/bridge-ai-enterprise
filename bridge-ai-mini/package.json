@@ -1,0 +1,12 @@
+{
+  "name": "bridge-ai-mini",
+  "version": "1.0.0",
+  "description": "Bridge AI – AI Candidate Profiler Mini MVP",
+  "private": true,
+  "dependencies": {
+    "openai": "^4.52.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
