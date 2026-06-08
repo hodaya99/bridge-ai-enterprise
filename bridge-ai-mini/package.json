@@ -4,7 +4,7 @@
   "description": "Bridge AI – AI Candidate Profiler Mini MVP",
   "private": true,
   "dependencies": {
-    "openai": "^4.52.0"
+    "@google/generative-ai": "^0.21.0"
   },
   "engines": {
     "node": ">=18"

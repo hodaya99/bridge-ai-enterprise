@@ -1,4 +1,4 @@
-const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // ===== DEMO FALLBACK =====
 const DEMO_RESPONSE = {
@@ -15,9 +15,9 @@ const DEMO_RESPONSE = {
   demo: true,
 };
 
-// ===== SYSTEM PROMPT =====
-const SYSTEM_PROMPT = `You are an AI career profiler for a job matching platform called Bridge AI.
-Analyze the candidate description or CV text provided by the user and extract structured information.
+// ===== PROMPT =====
+const PROMPT_TEMPLATE = (text) => `You are an AI career profiler for a job matching platform called Bridge AI.
+Analyze the following candidate description or CV text and extract structured information.
 
 Return ONLY a valid JSON object with exactly these keys:
 {
@@ -32,7 +32,10 @@ Strict rules:
 2. "level": exactly ONE of these strings: "Junior", "Mid", "Senior"
 3. "jobTypes": array of exactly 3 strings — specific job role titles (can be Hebrew or English)
 4. "pitch": exactly 2 sentences written in Hebrew that describe this candidate to potential employers
-5. Return ONLY the JSON object — no markdown, no explanation, no code fences`;
+5. Return ONLY the JSON object — no markdown, no explanation, no code fences
+
+Candidate text:
+${text}`;
 
 // ===== HANDLER =====
 exports.handler = async function (event) {
@@ -74,9 +77,8 @@ exports.handler = async function (event) {
     };
   }
 
-  // No API key → demo
-  if (!process.env.OPENAI_API_KEY) {
-    console.log('No OPENAI_API_KEY — returning demo response');
+  if (!process.env.GEMINI_API_KEY) {
+    console.log('No GEMINI_API_KEY — returning demo response');
     return {
       statusCode: 200,
       headers,
@@ -85,19 +87,14 @@ exports.handler = async function (event) {
   }
 
   try {
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: text },
-      ],
-      temperature: 0.3,
-      max_tokens: 600,
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
     });
 
-    const raw = (completion.choices[0].message.content || '').trim();
+    const result = await model.generateContent(PROMPT_TEMPLATE(text));
+    const raw = result.response.text().trim();
 
     const jsonStr = raw
       .replace(/^```json\s*/i, '')
@@ -105,28 +102,27 @@ exports.handler = async function (event) {
       .replace(/\s*```$/, '')
       .trim();
 
-    let result;
+    let parsed;
     try {
-      result = JSON.parse(jsonStr);
+      parsed = JSON.parse(jsonStr);
     } catch (_) {
-      console.error('Failed to parse OpenAI response:', raw);
+      console.error('Failed to parse Gemini response:', raw);
       return { statusCode: 200, headers, body: JSON.stringify(DEMO_RESPONSE) };
     }
 
-    // Validate structure
-    if (!Array.isArray(result.skills)) result.skills = DEMO_RESPONSE.skills;
-    if (!['Junior', 'Mid', 'Senior'].includes(result.level)) result.level = 'Mid';
-    if (!Array.isArray(result.jobTypes)) result.jobTypes = DEMO_RESPONSE.jobTypes;
-    if (typeof result.pitch !== 'string') result.pitch = DEMO_RESPONSE.pitch;
+    if (!Array.isArray(parsed.skills)) parsed.skills = DEMO_RESPONSE.skills;
+    if (!['Junior', 'Mid', 'Senior'].includes(parsed.level)) parsed.level = 'Mid';
+    if (!Array.isArray(parsed.jobTypes)) parsed.jobTypes = DEMO_RESPONSE.jobTypes;
+    if (typeof parsed.pitch !== 'string') parsed.pitch = DEMO_RESPONSE.pitch;
 
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify(result),
+      body: JSON.stringify(parsed),
     };
 
   } catch (err) {
-    console.error('OpenAI API error:', err.message);
+    console.error('Gemini API error:', err.message);
     return {
       statusCode: 200,
       headers,
