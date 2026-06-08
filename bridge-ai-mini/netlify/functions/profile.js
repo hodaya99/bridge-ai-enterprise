@@ -117,7 +117,12 @@ exports.handler = async function (event) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: buildPrompt(text) }] }],
-          generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
+          generationConfig: {
+            temperature: 0.3,
+            maxOutputTokens: 2048,
+            responseMimeType: 'application/json',
+            thinkingConfig: { thinkingBudget: 0 },
+          },
         }),
       }
     );
